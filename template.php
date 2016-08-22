@@ -18,8 +18,7 @@ use Bitrix\Main\Localization\Loc;
 
     <?
 
-    $strNavQueryString     = ($arResult['NavQueryString'] != '' ? $arResult['NavQueryString'] . '&amp;' : '');
-    $strNavQueryStringFull = ($arResult['NavQueryString'] != '' ? '?' . $arResult['NavQueryString'] : '');
+    $strNavQueryString = ($arResult['NavQueryString'] != '' ? $arResult['NavQueryString'] . '&amp;' : '');
     ?>
 
     <span class="modern-page-title"><?= Loc::GetMessage('pages') ?></span>
