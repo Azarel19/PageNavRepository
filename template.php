@@ -2,6 +2,11 @@
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
+if (!$arResult['NavShowAlways']) {
+    if ($arResult['NavRecordCount'] == 0 || ($arResult['NavPageCount'] == 1 && $arResult['NavShowAll'] == false)) {
+        return;
+    }
+}
 ?>
 
 <?
@@ -10,6 +15,12 @@ use Bitrix\Main\Localization\Loc;
 ?>
 
 <div class="modern-page-navigation">
+
+    <?
+
+    $strNavQueryString     = ($arResult['NavQueryString'] != '' ? $arResult['NavQueryString'] . '&amp;' : '');
+    $strNavQueryStringFull = ($arResult['NavQueryString'] != '' ? '?' . $arResult['NavQueryString'] : '');
+    ?>
 
     <span class="modern-page-title"><?= Loc::GetMessage('pages') ?></span>
     <?
@@ -21,7 +32,8 @@ use Bitrix\Main\Localization\Loc;
     if ($arResult['NAV']['PAGE_NUMBER'] > 1) {
         ?>
         <a class="modern-page-previous"
-           href="<?= $arResult['NAV']['URL']['PREV_PAGE'] ?>"><span
+           href="<?= $arResult['sUrlPath'] ?>?<?= $strNavQueryString ?>PAGEN_<?= $arResult['NavNum'] ?>=<?= ($arResult['NavPageNomer']
+                                                                                                             - 1) ?>"><span
                 class="arrow">&larr;</span></a>
         <?
 
@@ -57,7 +69,8 @@ use Bitrix\Main\Localization\Loc;
     if ($arResult['NAV']['PAGE_NUMBER'] < $arResult['NavPageCount']) {
         ?>
         <a class="modern-page-next"
-           href="<?= $arResult['NAV']['URL']['NEXT_PAGE'] ?>"><span
+           href="<?= $arResult['sUrlPath'] ?>?<?= $strNavQueryString ?>PAGEN_<?= $arResult['NavNum'] ?>=<?= ($arResult['NavPageNomer']
+                                                                                                             + 1) ?>"><span
                 class="arrow">&rarr;</span></a>
         <?
     }
@@ -66,14 +79,15 @@ use Bitrix\Main\Localization\Loc;
         if ($arResult['NAV']['SHOW_ALL_MODE']) {
             ?>
             <a class="modern-page-pagen"
-               href="<?= $arResult['NAV']['URL']['SHOW_BY_PAGE'] ?>=0"><?= Loc::GetMessage('nav_paged') ?></a>
+               href="<?= $arResult['sUrlPath'] ?>?<?= $strNavQueryString ?>SHOWALL_<?= $arResult['NavNum'] ?>=0"><?= Loc::GetMessage('nav_paged') ?></a>
             <?
         } else {
             ?>
             <a class="modern-page-all"
-               href="<?= $arResult['NAV']['URL']['SHOW_ALL'] ?>=1"><?= Loc::GetMessage('nav_all') ?></a>
+               href="<?= $arResult['sUrlPath'] ?>?<?= $strNavQueryString ?>SHOWALL_<?= $arResult['NavNum'] ?>=1"><?= Loc::GetMessage('nav_all') ?></a>
             <?
         }
     }
     ?>
 </div>
+
